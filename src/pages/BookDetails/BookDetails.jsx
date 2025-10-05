@@ -1,6 +1,11 @@
 import React from 'react';
 import { useLoaderData, useParams } from 'react-router';
 import { addToStoredDB } from '../../Utility/addToDB';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { ToastContainer, toast } from 'react-toastify';
+
+const MySwal = withReactContent(Swal)
 
 const BookDetails = () => {
     const { id } = useParams();
@@ -11,12 +16,18 @@ const BookDetails = () => {
     const { bookName, image, author, tags, category, review, totalPages, publisher, yearOfPublishing, rating } = singleBook || {};
 
 
-    const handleMarkAsRead = id =>{
+    const handleMarkAsRead = id => {
         // store with id
         // where to store
         // array or collection
         // if book already exist then show alert
         //  if not exist then push on the collection 
+        // MySwal.fire({
+        //     title: "Good job!",
+        //     text: "You clicked the button!",
+        //     icon: "success"
+        // });
+        toast("Wow so easy!")
 
         addToStoredDB(id)
 
@@ -32,6 +43,7 @@ const BookDetails = () => {
             </div>
             <div className='md:w-1/2 '>
                 <h1 className='font-bold text-4xl'>{bookName}</h1>
+                <ToastContainer />
                 <p>By: {author} </p>
                 <p className='border-t border-b text-gray-400 font-semibold '>{category}</p>
                 <p>Review: {review}</p>
@@ -46,7 +58,7 @@ const BookDetails = () => {
                 <p>Publishers: <span className='font-bold'>{publisher}</span></p>
                 <p>year Of Publishing:{yearOfPublishing}</p>
                 <p>Ratings:{rating}</p>
-                <button onClick={()=>handleMarkAsRead(id)} className='btn'>Read</button>
+                <button onClick={() => handleMarkAsRead(id)} className='btn'>Read</button>
                 <button className='btn ml-4 btn-primary'>Whishlist</button>
 
             </div>
