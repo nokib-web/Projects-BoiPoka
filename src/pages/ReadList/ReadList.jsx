@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { getStoredBook } from '../../Utility/addToDB';
+import {  getStoredBook, getWishListBook } from '../../Utility/addToDB';
 import Book from '../Book/Book';
 
 
@@ -12,17 +12,31 @@ const ReadList = () => {
 
     // Worst Case
     const [readList, setReadList] = useState([]);
+    const [wishList, setWishList] = useState([]);
     const [sort, setSort] = useState("");
     const data = useLoaderData();
-    console.log(data)
+    // console.log(data)
 
     useEffect(() => {
+
+        // const storedReadList = JSON.parse(localStorage.getItem("readList")) || [];
+        // const storedWishList = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+
         const storedBookData = getStoredBook();
         const convertedStoredBooks = storedBookData.map(id => parseInt(id))
         // console.log(convertedStoredBooks)
+
+          
+        const storedWishList= getWishListBook();
+        const convertedWishListBook = storedWishList.map(id=> parseInt(id) )
+
         const myReadList = data.filter(book => convertedStoredBooks.includes(book.bookId))
         setReadList(myReadList)
-    }, []);
+
+        const myWishList = data.filter(book => convertedWishListBook.includes(book.bookId));
+        setWishList(myWishList)
+    }, [data]);
 
 
     const handleSort = (type) => {
@@ -65,7 +79,11 @@ const ReadList = () => {
                     }
                 </TabPanel>
                 <TabPanel>
-                    <h2>Book I Add On Wish List</h2>
+                    <h2>Book I Add On Wish List:{wishList.length}</h2>
+
+                    {
+                        wishList.map(book => <Book key={book.bookId} book={book}></Book>)
+                    }
                 </TabPanel>
             </Tabs>
         </div>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLoaderData, useParams } from 'react-router';
-import { addToStoredDB } from '../../Utility/addToDB';
+import { addToStoredDB, addToWishlist } from '../../Utility/addToDB';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer,  } from 'react-toastify';
 
 const MySwal = withReactContent(Swal)
 
@@ -27,11 +27,15 @@ const BookDetails = () => {
         //     text: "You clicked the button!",
         //     icon: "success"
         // });
-        toast("Wow so easy!")
+        // toast("Wow so easy!")
 
         addToStoredDB(id)
 
 
+    }
+
+    const handleAddToWishList= id =>{
+        addToWishlist(id)
     }
 
 
@@ -59,7 +63,7 @@ const BookDetails = () => {
                 <p>year Of Publishing:{yearOfPublishing}</p>
                 <p>Ratings:{rating}</p>
                 <button onClick={() => handleMarkAsRead(id)} className='btn'>Read</button>
-                <button className='btn ml-4 btn-primary'>Whishlist</button>
+                <button onClick={()=> handleAddToWishList(id)} className='btn ml-4 btn-primary'>Whishlist</button>
 
             </div>
 
